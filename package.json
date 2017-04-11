@@ -1,8 +1,8 @@
 {
-  "name": "vue-select",
-  "version": "2.2.0",
-  "description": "A native Vue.js component that provides similar functionality to Select2 without the overhead of jQuery.",
-  "author": "Jeff Sagal <sagalbot@gmail.com>",
+  "name": "vue-select-wc",
+  "version": "2.2.2",
+  "description": "A fork of sagalbot's vue-select customized to my liking.",
+  "author": "Steven Landow <steven@stlcomputerservices.com>",
   "private": false,
   "main": "dist/vue-select.js",
   "license": "MIT",
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sagalbot/vue-select.git"
+    "url": "https://github.com/stevenctl/vue-select.git"
   },
   "peerDependencies": {
     "vue": "2.x"

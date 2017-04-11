@@ -106,9 +106,6 @@
   /* Selected Tags */
   .v-select .selected-tag {
     color: #333;
-    background-color: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
     height: 26px;
     margin: 4px 1px 0px 3px;
     padding: 1px 0.25em;
@@ -275,7 +272,7 @@
               class="form-control"
               :placeholder="searchPlaceholder"
               :readonly="!searchable"
-              :style="{ width: isValueEmpty ? '100%' : 'auto' }"
+              :style="{ width: isValueEmpty ? '100%' : 'auto', color: '#666' }"
               :id="inputId"
       >
 
@@ -580,7 +577,7 @@
        * @return {void}
        */
       select(option) {
-        if (this.isOptionSelected(option)) {
+        if (this.isOptionSelected(option) && this.multiple) {
           this.deselect(option)
         } else {
           if (this.taggable && !this.optionExists(option)) {
