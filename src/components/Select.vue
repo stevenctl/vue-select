@@ -249,11 +249,42 @@
 
 <template>
   <div class="dropdown v-select" :class="dropdownClasses">
-    <div ref="toggle" @mousedown.prevent="toggleDropdown" class="dropdown-toggle">
+      {{
+        function(){
 
-      <span class="selected-tag" v-for="option in valueAsArray" v-bind:key="option.index">
+            if(!valueAsArray){
+                return 'no valueAsArray';
+            }else if(!options){
+                return 'no options';
+            }else if(!multiple){
+                return 'a';
+            }else if(!(valueAsArray.length === options.length) && multiple){
+                return 'b';
+            }else if((valueAsArray.length === options.length) && multiple){
+                return 'c';
+            }else{
+                return 'd';
+            }
+        }()
+      }}
+    <div ref="toggle" @mousedown.prevent="toggleDropdown" class="dropdown-toggle">
+      <span class="selected-tag" v-if="!multiple" v-for="option in valueAsArray" v-bind:key="option.index">
         {{ getOptionLabel(option) }}
         <button v-if="multiple" @click="deselect(option)" type="button" class="close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </span>
+
+      <span class="selected-tag" v-if="!(valueAsArray.length === options.length) && multiple" v-for="option in valueAsArray" v-bind:key="option.index">
+        {{ getOptionLabel(option) }}
+        <button @click="deselect(option)" type="button" class="close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </span>
+
+      <span class="selected-tag" v-if="(valueAsArray.length === options.length) && multiple">
+        {{ 'All Selected' }}
+        <button @click="deselectAll()" type="button" class="close">
           <span aria-hidden="true">&times;</span>
         </button>
       </span>
@@ -617,6 +648,18 @@
       },
 
       /**
+       * De-select all options
+       * @return {void}
+       */
+      deselectAll(){
+          if (this.multiple) {
+              this.mutableValue = [];
+          }else{
+              this.mutableValue = null;
+          }
+      },
+
+      /**
        * Called from this.select after each selection.
        * @param  {Object|String} option
        * @return {void}
@@ -829,8 +872,10 @@
        * @return {Array}
        */
       valueAsArray() {
+          if(!this.mutableValue)return [];
+
         if (this.multiple) {
-          return this.mutableValue
+            return this.mutableValue
         } else if (this.mutableValue) {
           return [this.mutableValue]
         }

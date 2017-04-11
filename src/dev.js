@@ -16,7 +16,7 @@ new Vue({
   data: {
     placeholder: "placeholder",
     value: null,
-    options: countries,
+    options: ['foo', 'bar','fizz','buzz'],
     ajaxRes: []
   },
   methods: {
