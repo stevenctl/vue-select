@@ -249,24 +249,6 @@
 
 <template>
   <div class="dropdown v-select" :class="dropdownClasses">
-      {{
-        function(){
-
-            if(!valueAsArray){
-                return 'no valueAsArray';
-            }else if(!options){
-                return 'no options';
-            }else if(!multiple){
-                return 'a';
-            }else if(!(valueAsArray.length === options.length) && multiple){
-                return 'b';
-            }else if((valueAsArray.length === options.length) && multiple){
-                return 'c';
-            }else{
-                return 'd';
-            }
-        }()
-      }}
     <div ref="toggle" @mousedown.prevent="toggleDropdown" class="dropdown-toggle">
       <span class="selected-tag" v-if="!multiple" v-for="option in valueAsArray" v-bind:key="option.index">
         {{ getOptionLabel(option) }}
@@ -316,7 +298,13 @@
 
     <transition :name="transition">
       <ul ref="dropdownMenu" v-if="dropdownOpen" class="dropdown-menu" :style="{ 'max-height': maxHeight }">
-        <li v-for="(option, index) in filteredOptions" v-bind:key="index" :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }" @mouseover="typeAheadPointer = index">
+          <li v-if="multiple" >
+              <a @mousedown.prevent="toggleAll">
+                  {{ valueAsArray.length === options.length ? 'Deselect All' : 'Select All' }}
+              </a>
+          </li>
+          <hr v-if="multiple"/>
+          <li v-for="(option, index) in filteredOptions" v-bind:key="index" :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }" @mouseover="typeAheadPointer = index">
           <a @mousedown.prevent="select(option)">
             {{ getOptionLabel(option) }}
           </a>
@@ -628,6 +616,18 @@
       },
 
       /**
+       * Select all options
+       * @return {void}
+       */
+       selectAll(){
+           if(this.multiple){
+               this.mutableValue = this.mutableOptions.slice(0);
+           }else{
+               this.mutableValue = this.mutableOptions.slice(0)[0];
+           }
+       },
+
+      /**
        * De-select a given option.
        * @param  {Object|String} option
        * @return {void}
@@ -656,6 +656,18 @@
               this.mutableValue = [];
           }else{
               this.mutableValue = null;
+          }
+      },
+
+      /**
+       * Toggles selecting/deselecting all options
+       * @return {void}
+       */
+      toggleAll(){
+          if(this.valueAsArray.length === this.mutableOptions.length){
+              this.deselectAll();
+          }else{
+              this.selectAll();
           }
       },
 
