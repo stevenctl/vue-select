@@ -312,7 +312,7 @@
                   {{ valueAsArray.length === options.length ? 'Deselect All' : 'Select All' }}
               </a>
           </li>
-          <hr v-if="multiple && allSel"/>git 
+          <hr v-if="multiple && allSel"/>
           <li v-for="(option, index) in filteredOptions" v-bind:key="index" :class="{ active: isOptionSelected(option), highlight: index === typeAheadPointer }" @mouseover="typeAheadPointer = index">
           <a @mousedown.prevent="select(option)">
             {{ getOptionLabel(option) }}
