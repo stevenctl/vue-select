@@ -257,19 +257,28 @@
         </button>
       </span>
 
-      <span class="selected-tag" v-if="!(valueAsArray.length === options.length) && multiple" v-for="option in valueAsArray" v-bind:key="option.index">
+      <span class="selected-tag" v-if="(!(valueAsArray.length === options.length)) && multiple" v-for="option in valueAsArray" v-bind:key="option.index">
         {{ getOptionLabel(option) }}
         <button @click="deselect(option)" type="button" class="close">
           <span aria-hidden="true">&times;</span>
         </button>
       </span>
 
-      <span class="selected-tag" v-if="(valueAsArray.length === options.length) && multiple">
+      <span class="selected-tag" v-if="allSel && (valueAsArray.length === options.length) && multiple">
         {{ 'All Selected' }}
         <button @click="deselectAll()" type="button" class="close">
           <span aria-hidden="true">&times;</span>
         </button>
       </span>
+
+      <span class="selected-tag" v-if="!allSel && (valueAsArray.length === options.length) && multiple" v-for="option in valueAsArray" v-bind:key="option.index">
+        {{ getOptionLabel(option) }}
+        <button @click="deselect(option)" type="button" class="close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </span>
+
+
 
       <input
               ref="search"
@@ -298,7 +307,7 @@
 
     <transition :name="transition">
       <ul ref="dropdownMenu" v-if="dropdownOpen" class="dropdown-menu" :style="{ 'max-height': maxHeight }">
-          <li v-if="multiple" >
+          <li v-if="multiple && allSel" >
               <a @mousedown.prevent="toggleAll">
                   {{ valueAsArray.length === options.length ? 'Deselect All' : 'Select All' }}
               </a>
@@ -348,6 +357,11 @@
         default() {
           return []
         },
+      },
+
+      allSel: {
+          type: Boolean,
+          default: true
       },
 
       /**
