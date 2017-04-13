@@ -586,6 +586,10 @@
 			this.mutableLoading = this.loading
 
       this.$on('option:created', this.maybePushTag)
+
+        if(!this.multiple)
+        if(this.mutableOptions && this.mutableOptions.length > 0)
+        this.select(this.mutableOptions[0]);
     },
 
     methods: {
