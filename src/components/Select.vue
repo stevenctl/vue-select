@@ -589,7 +589,7 @@
 
         if(!this.multiple)
         if(this.mutableOptions && this.mutableOptions.length > 0)
-        this.select(this.mutableOptions[0]);
+            this.mutableValue = this.mutableOptions.slice(0)[0];
     },
 
     methods: {

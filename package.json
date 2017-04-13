@@ -1,6 +1,6 @@
 {
   "name": "vue-select-wc",
-  "version": "2.3.2",
+  "version": "2.3.3",
   "description": "A fork of sagalbot's vue-select customized to my liking.",
   "author": "Steven Landow <steven@stlcomputerservices.com>",
   "private": false,
